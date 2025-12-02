@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# ============================================
+# Lynis 安裝與系統安全檢查腳本
+# 作者：你自己
+# ============================================
+
+echo "=== 更新套件列表 ==="
+sudo apt update -y
+
+echo "=== 安裝 lynis ==="
+sudo apt install lynis -y
+
+echo "=== 開始執行 Lynis 系統安全檢查（完整版）==="
+sudo lynis audit system
+
+echo "=== 顯示 Hardening Index（硬化指標）==="
+sudo grep hardening /var/log/lynis-report.dat
+echo "=== （可選）快速掃描並寫入紀錄 ==="
+sudo lynis audit system --quick --report-file /var/log/lynis-report.dat
+
+echo "=== （可選）顯示所有可測試項目 ==="
+sudo lynis show tests
