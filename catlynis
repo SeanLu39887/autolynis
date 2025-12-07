@@ -1,3 +1,4 @@
+sudo apt update -y
 sudo apt install lynis -y
 
 sudo lynis audit system --quick --report-file /var/log/lynis-report.dat
