@@ -1,0 +1,22 @@
+sudo apt install lynis -y
+
+sudo lynis audit system --quick --report-file /var/log/lynis-report.dat
+sudo lynis show tests
+
+sudo sed -i 's/^Port 22/Port 222/' /etc/ssh/sshd_config
+
+# 修改 MaxAuthTries 6 → 1
+sudo sed -i 's/^MaxAuthTries .*/MaxAuthTries 1/' /etc/ssh/sshd_config
+
+# 修改 MaxSessions 10 → 3
+sudo sed -i 's/^MaxSessions .*/MaxSessions 3/' /etc/ssh/sshd_config
+
+# 修改 X11Forwarding yes → no
+sudo sed -i 's/^X11Forwarding yes/X11Forwarding no/' /etc/ssh/sshd_config
+
+
+sudo systemctl restart ssh
+sudo apt install ufw -y
+sudo ufw enable
+sudo ufw allow 222
+sudo lynis audit system --quick --report-file /var/log/lynis-report.dat
